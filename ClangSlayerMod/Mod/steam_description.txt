@@ -1,0 +1,46 @@
+[h1]Clang Slayer[/h1]
+
+Suppresses clang in Space Engineers.
+
+[h2]How to use[/h2]
+[list]
+[*] Add this mod to your world.
+[*] Try to use a clang drive or weapon. They should not work.
+[/list]
+
+[h2]Compatibility[/h2]
+[list]
+[*] Works in both single and multiplayer.
+[*] Works in both creative and survival game modes.
+[/list]
+
+[h2]Test world[/h2]
+TBD
+
+[h2]Theory of operation[/h2]
+The mod 
+[list]
+[*] tracks all mechanical connection bases
+[*] compares the intended head position and orientation with the actual one
+[*] measures the strain (clang forces) from the difference in position and orientation
+[*] temporarily changes the parameters of the mechanical connection bases to "tune down" clang
+[/list]
+
+[h2]Commands[/h2]
+TBD
+
+[h2]Tunable parameters[/h2]
+TBD
+
+[h2]Known issues[/h2]
+[list]
+[*] This mod may interfere with some programmable block scripts controlling mechanical base blocks.
+[/list]
+
+[h2]Troubleshooting[/h2]
+TBD
+
+[h2]Support / Help[/h2]
+[list]
+[*] [url=https://discord.gg/PYPFPGf3Ca]SE Mods Discord[/url]
+[/list]
