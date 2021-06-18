@@ -11,59 +11,30 @@ using VRageMath;
 namespace ClangSlayer
 {
     // ReSharper disable once UnusedType.Global
-    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_ExtendedPistonBase), false)]
-    public class PistonBase : MyGameLogicComponent
+    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_ExtendedPistonBase), true)]
+    public class PistonBaseCalmer : MyGameLogicComponent
     {
-        private static bool initialized;
-
         private IMyExtendedPistonBase pistonBase;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
-            if (initialized)
-                return;
-
             if (!MyAPIGateway.Multiplayer.IsServer)
                 return;
 
-            NeedsUpdate |= MyEntityUpdateEnum.EACH_10TH_FRAME;
-
-            initialized = true;
-        }
-
-        public override void OnAddedToContainer()
-        {
-            if (!initialized)
-                return;
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
 
             pistonBase = Entity as IMyExtendedPistonBase;
-            if (pistonBase == null)
-                return;
-
-            MyLog.Default.WriteLineAndConsole($"Piston base added: {pistonBase.EntityId}");
         }
 
-        public override void MarkForClose()
+        public override void Close()
         {
-            if (!initialized)
-                return;
-
-            if (pistonBase != null)
-                MyLog.Default.WriteLineAndConsole($"Piston base closed: {pistonBase?.EntityId}");
-
             pistonBase = null;
         }
 
-        public override void UpdateBeforeSimulation10()
+        public override void UpdateBeforeSimulation100()
         {
-            if (!initialized || pistonBase?.CubeGrid?.Physics == null || pistonBase.Top == null || !pistonBase.IsWorking)
-            {
-                MyLog.Default.WriteLineAndConsole($"Piston base is not working");
+            if (pistonBase?.CubeGrid?.Physics == null || pistonBase.Closed || !pistonBase.IsWorking || pistonBase.Top == null)
                 return;
-            }
-
-            MyLog.Default.WriteLineAndConsole($"Piston base is working: {pistonBase.EntityId}");
-            return;
 
             var offset = pistonBase.CubeGrid.GridSizeEnum == MyCubeSize.Large ? 1.4 : 1.4;
             var baseToTop = MatrixD.CreateTranslation(Vector3D.Up * (offset + pistonBase.CurrentPosition));

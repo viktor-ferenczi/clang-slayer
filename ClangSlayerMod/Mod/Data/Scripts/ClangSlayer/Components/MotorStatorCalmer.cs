@@ -13,7 +13,7 @@ namespace ClangSlayer
 {
     // ReSharper disable once UnusedType.Global
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_MotorStator), true)]
-    public class MotorStator : MyGameLogicComponent
+    public class MotorStatorCalmer : MyGameLogicComponent
     {
         // private static volatile bool initialized;
         //

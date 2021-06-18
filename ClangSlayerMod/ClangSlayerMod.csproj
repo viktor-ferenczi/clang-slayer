@@ -69,8 +69,8 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\Components\PistonBase.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\Components\MotorStator.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\Components\PistonBaseCalmer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\Components\MotorStatorCalmer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
