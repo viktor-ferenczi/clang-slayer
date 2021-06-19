@@ -66,7 +66,8 @@ namespace ClangSlayer
                 if (!overriding)
                     return;
 
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: BROKEN, DETACHED");
+                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? pistonBase.DisplayName ?? "Unnamed Piston"}: BROKEN, DETACHED");
+
                 pistonBase.Detach();
                 pistonBase.Velocity = -pistonBase.Velocity;
                 pistonBase.SetValueFloat("MaxImpulseAxis", 100);
@@ -93,8 +94,6 @@ namespace ClangSlayer
             if (Math.Abs(velocitySetting) < 1e-4)
                 return;
 
-            // MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}");
-
             var sign = Math.Sign(velocitySetting);
             if (sign * measuredVelocity > 0.5 * sign * velocitySetting)
             {
@@ -104,7 +103,7 @@ namespace ClangSlayer
                 pistonBase.SetValueFloat("MaxImpulseAxis", playerMaxImpulseAxis);
                 overriding = false;
 
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, FINISHED");
+                // MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, FINISHED");
 
                 return;
             }
@@ -114,8 +113,9 @@ namespace ClangSlayer
                 playerMaxImpulseAxis = currentMaxImpulseAxis;
 
             overrideMaxImpulseAxis = (float)Math.Max(100, playerMaxImpulseAxis * Math.Abs(measuredVelocity) / Math.Abs(velocitySetting));
-            if(!overriding)
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
+
+            // if(!overriding)
+            //     MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
 
             overriding = true;
             pistonBase.SetValueFloat("MaxImpulseAxis", overrideMaxImpulseAxis);
