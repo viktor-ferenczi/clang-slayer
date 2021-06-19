@@ -18,11 +18,12 @@ namespace ClangSlayer
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_ExtendedPistonBase), true)]
     public class PistonCalmer : MyGameLogicComponent
     {
-        private const double overrideLimit = 0.009;
         private IMyExtendedPistonBase pistonBase;
         private float playerMaxImpulseAxis;
         private float overrideMaxImpulseAxis;
         private bool overriding;
+        private float previousPosition;
+        private bool previousPositionSet;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -57,56 +58,59 @@ namespace ClangSlayer
 
         public override void UpdateBeforeSimulation100()
         {
+            // MyLog.Default.WriteLineAndConsole($"10 ticks: {pistonBase?.CustomName}");
+
             if (pistonBase?.CubeGrid?.Physics == null || pistonBase.Closed || !pistonBase.IsWorking || pistonBase.Top == null)
-                return;
-
-            var velocity = pistonBase.Velocity;
-            if (velocity > 0 && pistonBase.CurrentPosition > pistonBase.MaxLimit - 0.001)
-                velocity = 0;
-            if (velocity < 0 && pistonBase.CurrentPosition < pistonBase.MinLimit + 0.001)
-                velocity = 0;
-
-            var offset = pistonBase.CubeGrid.GridSizeEnum == MyCubeSize.Large ? 1.410 : 0.282;
-            var baseToTop = MatrixD.CreateTranslation(new Vector3D(0, offset + pistonBase.CurrentPosition - velocity * 0.01666, 0));
-
-            var expectedTopPose = baseToTop * pistonBase.WorldMatrix;
-            var actualTopPose = pistonBase.Top.WorldMatrix;
-
-            var delta = actualTopPose.Translation - expectedTopPose.Translation;
-
-            var currentMaxImpulseAxis = pistonBase.GetValueFloat("MaxImpulseAxis");
-            if (!overriding || Math.Abs(currentMaxImpulseAxis - overrideMaxImpulseAxis) > currentMaxImpulseAxis * 1e-5)
-                playerMaxImpulseAxis = currentMaxImpulseAxis;
-
-            var error = delta.Length();
-
-
-            if (pistonBase.CustomName.Contains("Jumper"))
             {
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocity:0.000}");
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: delta = {Utils.Format(delta)}, error = {error:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}");
+                if(pistonBase != null)
+                    MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: BROKEN");
+                return;
             }
 
-            if (error < overrideLimit)
+            if (!previousPositionSet)
+            {
+                previousPosition = pistonBase.CurrentPosition;
+                previousPositionSet = true;
+                return;
+            }
+
+            var measuredVelocity = (pistonBase.CurrentPosition - previousPosition) * 0.6;
+            previousPosition = pistonBase.CurrentPosition;
+
+            var velocitySetting = pistonBase.Velocity;
+            if (velocitySetting > 0 && pistonBase.CurrentPosition > pistonBase.MaxLimit - 1e-4)
+                velocitySetting = 0;
+            if (velocitySetting < 0 && pistonBase.CurrentPosition < pistonBase.MinLimit + 1e-4)
+                velocitySetting = 0;
+
+            if (Math.Abs(velocitySetting) < 1e-4)
+                return;
+
+            MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
+
+            var sign = Math.Sign(velocitySetting);
+            if (sign * measuredVelocity > 0.5 * sign * velocitySetting)
             {
                 if (!overriding)
                     return;
 
                 pistonBase.SetValueFloat("MaxImpulseAxis", playerMaxImpulseAxis);
                 overriding = false;
+
+                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, FINISHED");
+
                 return;
             }
 
-            var proposedMaxImpulseAxis = (float)(100 + Utils.Rng.NextDouble());
-            if (!(Math.Abs(proposedMaxImpulseAxis - currentMaxImpulseAxis) > Math.Max(100, currentMaxImpulseAxis * 0.1)))
-                return;
+            var currentMaxImpulseAxis = pistonBase.GetValueFloat("MaxImpulseAxis");
+            if (!overriding || Math.Abs(currentMaxImpulseAxis - overrideMaxImpulseAxis) > currentMaxImpulseAxis * 1e-5)
+                playerMaxImpulseAxis = currentMaxImpulseAxis;
 
             overriding = true;
-            overrideMaxImpulseAxis = proposedMaxImpulseAxis;
+            overrideMaxImpulseAxis = (float)Math.Max(100, playerMaxImpulseAxis * Math.Abs(measuredVelocity) / Math.Abs(velocitySetting));
             pistonBase.SetValueFloat("MaxImpulseAxis", overrideMaxImpulseAxis);
 
-            if (pistonBase.CustomName.Contains("Jumper"))
-                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
+            MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
         }
     }
 }
