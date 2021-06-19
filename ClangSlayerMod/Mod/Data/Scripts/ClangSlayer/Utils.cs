@@ -1,18 +1,11 @@
+using System;
 using VRageMath;
 
 namespace ClangSlayer
 {
     public static class Utils
     {
-        public static string Format(float v)
-        {
-            return $"{v:0.000}";
-        }
-
-        public static string Format(double v)
-        {
-            return $"{v:0.000}";
-        }
+        public static readonly Random Rng = new Random();
 
         public static string Format(Vector3I v)
         {

@@ -36,7 +36,7 @@ namespace ClangSlayer
             if (hingeBase?.CubeGrid?.Physics == null || hingeBase.Closed || !hingeBase.IsWorking || hingeBase.Top == null)
                 return;
 
-            MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: {hingeBase.CustomName ?? "?"}");
+            // MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: {hingeBase.CustomName ?? "?"}");
 
             var baseToTop = MatrixD.CreateFromAxisAngle(Vector3D.Down, hingeBase.Angle);
 
@@ -44,7 +44,7 @@ namespace ClangSlayer
             var actualTopPose = hingeBase.Top.WorldMatrix;
 
             var positionDelta = actualTopPose.Translation - expectedTopPose.Translation;
-            MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: positionDelta = {Utils.Format(positionDelta)}");
+            // MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: positionDelta = {Utils.Format(positionDelta)}");
 
             var positionError = Vector3D.DistanceSquared(actualTopPose.Translation, expectedTopPose.Translation);
             var forwardError = Vector3D.DistanceSquared(actualTopPose.Forward, expectedTopPose.Forward);

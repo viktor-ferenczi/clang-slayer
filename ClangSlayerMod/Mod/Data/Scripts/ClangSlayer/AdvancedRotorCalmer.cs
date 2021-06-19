@@ -35,7 +35,7 @@ namespace ClangSlayer
             if (rotorBase?.CubeGrid?.Physics == null || rotorBase.Closed || !rotorBase.IsWorking || rotorBase.Top == null)
                 return;
 
-            MyLog.Default.WriteLineAndConsole($"{rotorBase.CubeGrid.GridSizeEnum}: {rotorBase.CustomName ?? "?"}");
+            // MyLog.Default.WriteLineAndConsole($"{rotorBase.CubeGrid.GridSizeEnum}: {rotorBase.CustomName ?? "?"}");
 
             var baseToTop = MatrixD.CreateTranslation(Vector3D.Up * (0.2 + rotorBase.Displacement)) * MatrixD.CreateFromAxisAngle(Vector3D.Down, rotorBase.Angle);
 
@@ -43,7 +43,7 @@ namespace ClangSlayer
             var actualTopPose = rotorBase.Top.WorldMatrix;
 
             var positionDelta = actualTopPose.Translation - expectedTopPose.Translation;
-            MyLog.Default.WriteLineAndConsole($"{rotorBase.CubeGrid.GridSizeEnum}: positionDelta = {Utils.Format(positionDelta)}");
+            // MyLog.Default.WriteLineAndConsole($"{rotorBase.CubeGrid.GridSizeEnum}: positionDelta = {Utils.Format(positionDelta)}");
 
             var positionError = Vector3D.DistanceSquared(actualTopPose.Translation, expectedTopPose.Translation);
             var forwardError = Vector3D.DistanceSquared(actualTopPose.Forward, expectedTopPose.Forward);
