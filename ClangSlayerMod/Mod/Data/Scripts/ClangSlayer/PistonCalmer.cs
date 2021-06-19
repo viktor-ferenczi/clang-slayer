@@ -45,36 +45,11 @@ namespace ClangSlayer
             var actualTopPose = pistonBase.Top.WorldMatrix;
 
             var positionDelta = actualTopPose.Translation - expectedTopPose.Translation;
-            MyLog.Default.WriteLineAndConsole($"{pistonBase.CubeGrid.GridSizeEnum}: positionDelta = {Format(positionDelta)}");
+            MyLog.Default.WriteLineAndConsole($"{pistonBase.CubeGrid.GridSizeEnum}: positionDelta = {Utils.Format(positionDelta)}");
 
             var positionError = Vector3D.DistanceSquared(actualTopPose.Translation, expectedTopPose.Translation);
             var forwardError = Vector3D.DistanceSquared(actualTopPose.Forward, expectedTopPose.Forward);
             var rollError = Vector3D.DistanceSquared(actualTopPose.Up, expectedTopPose.Up);
-        }
-
-        public static string Format(float v)
-        {
-            return $"{v:0.000}";
-        }
-
-        public static string Format(double v)
-        {
-            return $"{v:0.000}";
-        }
-
-        public static string Format(Vector3I v)
-        {
-            return $"[{v.X}, {v.Y}, {v.Z}]";
-        }
-
-        public static string Format(Vector3D v)
-        {
-            return $"[{v.X:0.000}, {v.Y:0.000}, {v.Z:0.000}]";
-        }
-
-        public static string Format(MatrixD m)
-        {
-            return $"\r\n  T: {Format(m.Translation)}\r\n  F: {Format(m.Forward)}\r\n  U: {Format(m.Up)}\r\n  S: {Format(m.Scale)}";
         }
     }
 }
