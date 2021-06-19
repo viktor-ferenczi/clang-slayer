@@ -11,10 +11,10 @@ using VRageMath;
 namespace ClangSlayer
 {
     // ReSharper disable once UnusedType.Global
-    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_ExtendedPistonBase), true)]
+    [MyEntityComponentDescriptor(typeof(MyObjectBuilder_MotorAdvancedStator), true, new []{"LargeHinge", "MediumHinge", "SmallHinge"})]
     public class PistonBaseCalmer : MyGameLogicComponent
     {
-        private IMyExtendedPistonBase pistonBase;
+        private IMyMotorAdvancedStator hingeBase;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -23,30 +23,28 @@ namespace ClangSlayer
 
             Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
 
-            pistonBase = Entity as IMyExtendedPistonBase;
+            hingeBase = Entity as IMyMotorAdvancedStator;
         }
 
         public override void Close()
         {
-            pistonBase = null;
+            hingeBase = null;
         }
 
         public override void UpdateBeforeSimulation100()
         {
-            if (pistonBase?.CubeGrid?.Physics == null || pistonBase.Closed || !pistonBase.IsWorking || pistonBase.Top == null)
+            if (hingeBase?.CubeGrid?.Physics == null || hingeBase.Closed || !hingeBase.IsWorking || hingeBase.Top == null)
                 return;
 
-            var offset = pistonBase.CubeGrid.GridSizeEnum == MyCubeSize.Large ? 1.4 : 1.4;
-            var baseToTop = MatrixD.CreateTranslation(Vector3D.Up * (offset + pistonBase.CurrentPosition));
+            MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: {hingeBase.CustomName ?? "?"}");
 
-            var expectedTopPose = pistonBase.WorldMatrix * baseToTop;
-            var actualTopPose = pistonBase.Top.WorldMatrix;
+            var baseToTop = MatrixD.CreateFromAxisAngle(Vector3D.Down, hingeBase.Angle);
+
+            var expectedTopPose = baseToTop * hingeBase.WorldMatrix;
+            var actualTopPose = hingeBase.Top.WorldMatrix;
 
             var positionDelta = actualTopPose.Translation - expectedTopPose.Translation;
-            MyLog.Default.WriteLineAndConsole($"positionDelta = {Format(positionDelta)}");
-
-            var forwardDelta = positionDelta.Length() * Vector3D.Dot(positionDelta, expectedTopPose.Forward);
-            MyLog.Default.WriteLineAndConsole($"forwardDelta = {Format(forwardDelta)}");
+            MyLog.Default.WriteLineAndConsole($"{hingeBase.CubeGrid.GridSizeEnum}: positionDelta = {Format(positionDelta)}");
 
             var positionError = Vector3D.DistanceSquared(actualTopPose.Translation, expectedTopPose.Translation);
             var forwardError = Vector3D.DistanceSquared(actualTopPose.Forward, expectedTopPose.Forward);
