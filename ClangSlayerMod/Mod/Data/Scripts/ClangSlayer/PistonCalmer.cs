@@ -30,7 +30,7 @@ namespace ClangSlayer
             if (!MyAPIGateway.Multiplayer.IsServer)
                 return;
 
-            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_FRAME;
 
             pistonBase = Entity as IMyExtendedPistonBase;
         }
@@ -56,14 +56,21 @@ namespace ClangSlayer
             pistonBase = null;
         }
 
-        public override void UpdateBeforeSimulation100()
+        public override void UpdateBeforeSimulation()
         {
-            // MyLog.Default.WriteLineAndConsole($"10 ticks: {pistonBase?.CustomName}");
+            if (pistonBase?.Top == null || pistonBase.Closed || pistonBase?.CubeGrid?.Physics == null)
+                return;
 
-            if (pistonBase?.CubeGrid?.Physics == null || pistonBase.Closed || !pistonBase.IsWorking || pistonBase.Top == null)
+            if (!pistonBase.IsWorking)
             {
-                if(pistonBase != null)
-                    MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: BROKEN");
+                if (!overriding)
+                    return;
+
+                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: BROKEN, DETACHED");
+                pistonBase.Detach();
+                pistonBase.Velocity = -pistonBase.Velocity;
+                pistonBase.SetValueFloat("MaxImpulseAxis", 100);
+                overriding = false;
                 return;
             }
 
@@ -74,7 +81,7 @@ namespace ClangSlayer
                 return;
             }
 
-            var measuredVelocity = (pistonBase.CurrentPosition - previousPosition) * 0.6;
+            var measuredVelocity = (pistonBase.CurrentPosition - previousPosition) * 60;
             previousPosition = pistonBase.CurrentPosition;
 
             var velocitySetting = pistonBase.Velocity;
@@ -86,7 +93,7 @@ namespace ClangSlayer
             if (Math.Abs(velocitySetting) < 1e-4)
                 return;
 
-            MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
+            // MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}");
 
             var sign = Math.Sign(velocitySetting);
             if (sign * measuredVelocity > 0.5 * sign * velocitySetting)
@@ -106,11 +113,12 @@ namespace ClangSlayer
             if (!overriding || Math.Abs(currentMaxImpulseAxis - overrideMaxImpulseAxis) > currentMaxImpulseAxis * 1e-5)
                 playerMaxImpulseAxis = currentMaxImpulseAxis;
 
-            overriding = true;
             overrideMaxImpulseAxis = (float)Math.Max(100, playerMaxImpulseAxis * Math.Abs(measuredVelocity) / Math.Abs(velocitySetting));
-            pistonBase.SetValueFloat("MaxImpulseAxis", overrideMaxImpulseAxis);
+            if(!overriding)
+                MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
 
-            MyLog.Default.WriteLineAndConsole($"{pistonBase.CustomName ?? "?"}: position = {pistonBase.CurrentPosition:0.000}, velocity = {velocitySetting:0.000}, effectiveVelocity = {measuredVelocity:0.000}, playerMaxImpulseAxis = {playerMaxImpulseAxis}, overrideMaxImpulseAxis = {overrideMaxImpulseAxis}");
+            overriding = true;
+            pistonBase.SetValueFloat("MaxImpulseAxis", overrideMaxImpulseAxis);
         }
     }
 }
