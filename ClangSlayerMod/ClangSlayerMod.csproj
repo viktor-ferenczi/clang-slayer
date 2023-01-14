@@ -59,7 +59,7 @@
             <HintPath>..\GameBin64\VRage.Game.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Input, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-			<HintPath>..\GameBin64\DedicatedServer64\VRage.Input.dll</HintPath>
+			<HintPath>..\GameBin64\VRage.Input.dll</HintPath>
         </Reference>
         <Reference Include="VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\GameBin64\VRage.Library.dll</HintPath>
@@ -69,11 +69,20 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\AdvancedRotorCalmer.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\Utils.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\HingeCalmer.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\PistonCalmer.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\RotorCalmer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\BaseHingeStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\LargeAdvancedRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\LargeHingeStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\MediumHingeStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\BasePistonStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\PropertyOverride.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\BaseRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallAdvancedRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallHingeStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallPistonStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\Util.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\LargePistonStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\LargeRotorStabilizer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>

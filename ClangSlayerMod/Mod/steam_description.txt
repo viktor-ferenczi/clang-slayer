@@ -1,6 +1,6 @@
 [h1]Clang Slayer[/h1]
 
-Suppresses clang in Space Engineers.
+Suppresses clang induced in mechanical connection blocks (piston, rotor, hinge) used in Space Engineers.
 
 [h2]How to use[/h2]
 [list]
@@ -18,12 +18,12 @@ Suppresses clang in Space Engineers.
 TBD
 
 [h2]Theory of operation[/h2]
-The mod 
+This mod 
 [list]
 [*] tracks all mechanical connection bases
 [*] compares the intended head position and orientation with the actual one
 [*] measures the strain (clang forces) from the difference in position and orientation
-[*] temporarily changes the parameters of the mechanical connection bases to "tune down" clang
+[*] temporarily changes the parameters of the mechanical connection bases to reduce clang forces
 [/list]
 
 [h2]Commands[/h2]
@@ -34,7 +34,8 @@ TBD
 
 [h2]Known issues[/h2]
 [list]
-[*] This mod may interfere with some programmable block scripts controlling mechanical base blocks.
+[*] This mod may interfere with some programmable block scripts controlling mechanical base blocks every tick.
+[*] Players attempting to overdrive mechanical connections may report that they are broken, since their settings are getting overridden. 
 [/list]
 
 [h2]Troubleshooting[/h2]
