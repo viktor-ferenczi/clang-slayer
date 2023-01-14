@@ -80,6 +80,7 @@
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallHingeStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallPistonStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\Derivative.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\Util.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\LargePistonStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\LargeRotorStabilizer.cs" />

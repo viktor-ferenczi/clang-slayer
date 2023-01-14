@@ -1,5 +1,6 @@
 using System;
 using Sandbox.ModAPI;
+using VRage.Game.ModAPI.Ingame;
 using VRage.Utils;
 using VRageMath;
 
@@ -8,6 +9,21 @@ namespace ClangSlayer
     public static class Util
     {
         public static readonly Random Rng = new Random();
+
+        public static string DebugName(IMyTerminalBlock block)
+        {
+            if (block?.CubeGrid == null)
+            {
+                return "?";
+            }
+            
+            return $"{Name(block.CubeGrid)}/{Name(block)}";
+        }
+
+        public static string Name(IMyCubeGrid grid)
+        {
+            return grid.CustomName ?? grid.DisplayName ?? grid.Name;
+        }
 
         public static string Name(IMyTerminalBlock block)
         {
@@ -34,10 +50,10 @@ namespace ClangSlayer
             var positionDelta = actualTopPose.Translation - expectedTopPose.Translation;
             
             MyLog.Default.WriteLineAndConsole(
-                $"{name}:\r\n" +
-                $"expectedTopPose={Util.Format(expectedTopPose)};\r\n" +
-                $"  actualTopPose={Util.Format(actualTopPose)};\r\n" +
-                $"  positionDelta={Util.Format(positionDelta)};");
+                $"ClangSlayer: {name}:\r\n" +
+                $"expectedTopPose={Format(expectedTopPose)};\r\n" +
+                $"  actualTopPose={Format(actualTopPose)};\r\n" +
+                $"  positionDelta={Format(positionDelta)};");
         }
     }
 }

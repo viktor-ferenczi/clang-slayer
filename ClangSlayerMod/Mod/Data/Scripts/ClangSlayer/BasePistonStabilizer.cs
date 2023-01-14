@@ -1,7 +1,6 @@
 using System;
 using VRage.Game.Components;
 using Sandbox.ModAPI;
-using VRage.Game.ObjectBuilders.ComponentSystem;
 using VRage.ModAPI;
 using VRage.ObjectBuilders;
 using VRage.Utils;
@@ -10,93 +9,77 @@ namespace ClangSlayer
 {
     public class BasePistonStabilizer: MyGameLogicComponent
     {
-        private IMyExtendedPistonBase pistonBase;
-        private PropertyOverride maxImpulseAxis;
-        private float previousPosition;
-        private bool previousPositionSet;
+        private IMyExtendedPistonBase piston;
+        private Derivative position;
+        private float previousVelocity;
+        // private PropertyOverride maxImpulseAxis;
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
             if (!MyAPIGateway.Multiplayer.IsServer)
                 return;
+            
+            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_100TH_FRAME;
 
-            Entity.NeedsUpdate |= MyEntityUpdateEnum.EACH_FRAME;
-
-            pistonBase = Entity as IMyExtendedPistonBase;
-            maxImpulseAxis = new PropertyOverride(pistonBase, "MaxImpulseAxis", 1);
+            piston = Entity as IMyExtendedPistonBase;
+            position = new Derivative(piston.CurrentPosition);
+            // maxImpulseAxis = new PropertyOverride(piston, "MaxImpulseAxis", 1);
         }
 
-        public override MyObjectBuilder_ComponentBase Serialize(bool copy = false)
-        {
-            if (!maxImpulseAxis.Overriding)
-                return base.Serialize(copy);
-
-            var value = maxImpulseAxis.Value;
-
-            try
-            {
-                maxImpulseAxis.Reset();
-                return base.Serialize(copy);
-            }
-            finally
-            {
-                maxImpulseAxis.Override(value);
-            }
-        }
+        // public override MyObjectBuilder_ComponentBase Serialize(bool copy = false)
+        // {
+        //     if (!maxImpulseAxis.Overriding)
+        //         return base.Serialize(copy);
+        //
+        //     var value = maxImpulseAxis.Value;
+        //
+        //     try
+        //     {
+        //         maxImpulseAxis.Reset();
+        //         return base.Serialize(copy);
+        //     }
+        //     finally
+        //     {
+        //         maxImpulseAxis.Override(value);
+        //     }
+        // }
 
         public override void Close()
         {
-            pistonBase = null;
+            piston = null;
         }
 
-        public override void UpdateBeforeSimulation()
+        public override void UpdateBeforeSimulation100()
         {
-            if (pistonBase?.Top == null || pistonBase.Closed || pistonBase?.CubeGrid?.Physics == null)
+            if (piston?.Top == null || piston.Closed || piston.CubeGrid?.Physics == null)
+            {
                 return;
-
-            return;
+            } 
             
-            if (!pistonBase.IsWorking)
+            if (!piston.IsWorking || piston.Velocity == 0f || 
+                Math.Abs(piston.Velocity - previousVelocity) > 1e-6 ||
+                piston.Velocity > 0f && piston.CurrentPosition >= piston.MaxLimit - 1e-6 ||
+                piston.Velocity < 0f && piston.CurrentPosition <= piston.MinLimit + 1e-6)
             {
-                if (!maxImpulseAxis.Overriding)
-                    return;
-
-                MyLog.Default.WriteLineAndConsole($"{Util.Name(pistonBase)}: BROKEN, DETACHED");
-
-                pistonBase.Detach();
-
-                maxImpulseAxis.Abandon(100);
+                position.Reset(piston.CurrentPosition);
+                previousVelocity = piston.Velocity;
                 return;
             }
-
-            if (!previousPositionSet)
+            
+            position.Update(piston.CurrentPosition);
+            if (!position.Valid)
             {
-                previousPosition = pistonBase.CurrentPosition;
-                previousPositionSet = true;
                 return;
             }
-
-            var measuredVelocity = (pistonBase.CurrentPosition - previousPosition) * 60;
-            previousPosition = pistonBase.CurrentPosition;
-
-            var velocitySetting = pistonBase.Velocity;
-            if (velocitySetting > 0 && pistonBase.CurrentPosition > pistonBase.MaxLimit - 1e-4)
-                velocitySetting = 0;
-            if (velocitySetting < 0 && pistonBase.CurrentPosition < pistonBase.MinLimit + 1e-4)
-                velocitySetting = 0;
-
-            if (Math.Abs(velocitySetting) < 1e-4)
-                return;
-
-            var sign = Math.Sign(velocitySetting);
-            if (sign * measuredVelocity > 0.5 * sign * velocitySetting)
+            
+            // Does the piston's velocity significantly differ from the configured value? 
+            var velocity = position.Dt;
+            var velocityError = velocity - piston.Velocity;
+            if (Math.Abs(velocityError) > 0.9 * Math.Abs(piston.Velocity))
             {
-                maxImpulseAxis.Reset();
-                return;
+                MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(piston)}: Piston is stuck. expectedVelocity={piston.Velocity:0.000}; actualVelocity={velocity:0.000}; velocityError={velocityError:0.000}");
+                piston.Velocity = 0;
             }
-
-            // Reduce the maximum impulse
-            maxImpulseAxis.Override(Math.Max(100, maxImpulseAxis.Value * Math.Abs(measuredVelocity) / Math.Abs(velocitySetting)));
         }
     }
 }

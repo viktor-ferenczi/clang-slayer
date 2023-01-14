@@ -8,8 +8,5 @@ namespace ClangSlayer
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_MotorAdvancedStator), true, "LargeHinge")]
     public class LargeHingeStabilizer : BaseHingeStabilizer
     {
-        public LargeHingeStabilizer()
-        {
-        }
     }
 }
