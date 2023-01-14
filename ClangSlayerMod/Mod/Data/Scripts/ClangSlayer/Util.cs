@@ -4,12 +4,16 @@ using VRage.Game.ModAPI.Ingame;
 using VRage.Utils;
 using VRageMath;
 
+// ReSharper disable once CheckNamespace
 namespace ClangSlayer
 {
     public static class Util
     {
         public static readonly Random Rng = new Random();
 
+        public static Config Cfg => ClangSlayerSession.Cfg;
+        public static bool Debug => Cfg.Debug;
+        
         public static string DebugName(IMyTerminalBlock block)
         {
             if (block?.CubeGrid == null)

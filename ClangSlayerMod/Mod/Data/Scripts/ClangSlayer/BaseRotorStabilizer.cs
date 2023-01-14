@@ -16,8 +16,8 @@ namespace ClangSlayer
 
         protected override MatrixD GetBaseToTopMatrixD()
         {
-            var displacementOffset = stator.TopGrid.GridSizeEnum == MyCubeSize.Small ? smallDisplacementOffset : largeDisplacementOffset;
-            return MatrixD.CreateTranslation(Vector3D.Up * (displacementOffset + stator.Displacement)) * MatrixD.CreateFromAxisAngle(Vector3D.Down, stator.Angle);
+            var displacementOffset = Stator.TopGrid.GridSizeEnum == MyCubeSize.Large ? largeDisplacementOffset : smallDisplacementOffset;
+            return MatrixD.CreateTranslation(Vector3D.Up * (displacementOffset + Stator.Displacement)) * MatrixD.CreateFromAxisAngle(Vector3D.Down, Stator.Angle);
         }
     }
 }
