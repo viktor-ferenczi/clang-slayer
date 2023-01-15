@@ -31,7 +31,7 @@ namespace ClangSlayer
 
         public static string Format(Vector3D v)
         {
-            return $"[{v.X:0.000}, {v.Y:0.000}, {v.Z:0.000}]";
+            return $"[{v.X:0.000000}, {v.Y:0.000000}, {v.Z:0.000000}]";
         }
 
         public static string Format(MatrixD m)

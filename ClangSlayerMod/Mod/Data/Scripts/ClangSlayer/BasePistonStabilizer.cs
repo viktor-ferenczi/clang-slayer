@@ -62,8 +62,8 @@ namespace ClangSlayer
             if (cfg.Trace)
             {
                 Util.LogPoseDelta(Util.DebugName(piston), ref actualTopPose, ref expectedTopPose);
-                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
-                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000000} m");
+                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000000} degrees");
             }
 
             var logDetail = false;
@@ -96,8 +96,8 @@ namespace ClangSlayer
             if (logDetail)
             {
                 Util.LogPoseDelta(Util.DebugName(piston), ref actualTopPose, ref expectedTopPose);
-                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
-                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000000} m");
+                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000000} degrees");
             }
         }
     }

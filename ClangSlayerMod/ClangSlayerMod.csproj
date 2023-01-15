@@ -79,7 +79,8 @@
         <Compile Include="Mod\Data\Scripts\ClangSlayer\BaseRotorStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\PropertyOverride.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\ClangSlayerSession.cs" />
-        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallAdvancedRotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallAdvanced3x3RotorStabilizer.cs" />
+        <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallAdvanced1x1RotorStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallHingeStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallPistonStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\SmallRotorStabilizer.cs" />
