@@ -52,8 +52,10 @@ Uncomment the settings you want to change, the ones with default values are writ
 
 [h2]Known issues[/h2]
 [list]
-[*] This mod may interfere with some programmable block scripts controlling mechanical base blocks every tick.
-[*] Players attempting to overdrive mechanical connections may report that they are broken. 
+[*] Non-standard base-head combinations (large head on small rotor, different piston head size) are untested.
+[*] Modded mechanical connections may not work with this mod, especially if their head position is different.
+[*] This mod may interfere with some programmable block scripts controlling mechanical blocks.
+[*] Players attempting to use clang based contraptions may report that they are broken. 
 [/list]
 
 [h2]Troubleshooting[/h2]
