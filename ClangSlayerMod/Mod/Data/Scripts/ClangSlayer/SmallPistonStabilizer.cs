@@ -8,5 +8,8 @@ namespace ClangSlayer
     [MyEntityComponentDescriptor(typeof(MyObjectBuilder_ExtendedPistonBase), true, "SmallPistonBase")]
     public class SmallPistonStabilizer : BasePistonStabilizer
     {
+        public SmallPistonStabilizer() : base(-0.279103 / -0.989410)
+        {
+        }
     }
 }

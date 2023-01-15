@@ -15,6 +15,12 @@ namespace ClangSlayer
     {
         private readonly Config cfg = Util.Cfg;
         private IMyExtendedPistonBase piston;
+        private readonly double offset;
+
+        public BasePistonStabilizer(double offset)
+        {
+            this.offset = offset;
+        }
 
         public override void Init(MyObjectBuilder_EntityBase objectBuilder)
         {
@@ -46,7 +52,6 @@ namespace ClangSlayer
             }
             
             // Calculate the error in the top part's pose
-            var offset = piston.TopGrid.GridSizeEnum == MyCubeSize.Large ? -1.393968 / -0.989401 : -0.279103 / -0.989410;
             var baseToTop = MatrixD.CreateTranslation(Vector3D.Up * (offset + piston.CurrentPosition));  // + piston.Velocity / 60.0 
             var expectedTopPose = baseToTop * piston.WorldMatrix;
             var actualTopPose = piston.Top.WorldMatrix;
