@@ -25,11 +25,15 @@ This mod still allows for all reasonable uses of mechanical connections, for exa
 
 Creative mode, test platform in empty space. Enter the Helm, then use Ctrl-1 / 1 and 6 buttons. Wait until the blocked mechanical connections stop moving. Check the game's log for ClangSlayer entries, you should see that all of them are disabled by the mod.
 
-[b]Test blueprint:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2407655607]Helios PJ-33 Piston Jolt[/url] by Major Jon
+[b]Test blueprints:[/b]
+[list]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2918644889]Clang with Piston[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2407655607]Helios PJ-33 Piston Jolt[/url] by Major Jon
+[/list]
 
-Paste this blueprint into a creative world without the mod. It will work as intended.
+Paste any of the above blueprints into a world without the mod. They will work (use clang) as intended.
 
-Add the mod to the world, then try the piston jolt again. It should just break apart on activation because the mod disconnects the clang inducing head parts.
+Add the mod to the world, then try it again. The clang should not happen and the piston jolt should just fall apart on activation because the mod disconnects the clang inducing head parts.
 
 [h2]Theory of operation[/h2]
 This mod 
