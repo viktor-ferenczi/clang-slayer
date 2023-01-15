@@ -1,10 +1,10 @@
 [h1]Clang Slayer[/h1]
 
-Disables or detaches mechanical connection bases (piston, rotor, hinge) if they would introduce clang forces.
+Disables or detaches mechanical connection bases (piston, rotor, hinge) if they would induce clang forces.
 
 This mod is useful to block the use of all kind of clang based solutions (drives, weapons, etc.). 
 
-This mod still allows for all reasonable uses of mechanical connections, for example in drilling rigs or cranes, as long as they are not "forced" into unrealistic positions/forces.
+This mod still allows for all reasonable uses of mechanical connections, for example in drilling rigs or cranes, as long as they are not "forced" into unrealistic poses.
 
 [h2]How to use[/h2]
 [list]
