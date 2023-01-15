@@ -1,6 +1,4 @@
-using System;
 using Sandbox.ModAPI;
-using VRage.Game.ModAPI.Ingame;
 using VRage.Utils;
 using VRageMath;
 
@@ -16,7 +14,7 @@ namespace ClangSlayer
             return block?.CubeGrid == null ? "?" : $"{Name(block.CubeGrid)}/{Name(block)}";
         }
 
-        public static string Name(IMyCubeGrid grid)
+        public static string Name(VRage.Game.ModAPI.IMyCubeGrid grid)
         {
             return grid.CustomName ?? grid.DisplayName ?? grid.Name;
         }
