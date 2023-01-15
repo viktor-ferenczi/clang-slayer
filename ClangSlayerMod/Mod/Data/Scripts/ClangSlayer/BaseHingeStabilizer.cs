@@ -51,32 +51,42 @@ namespace ClangSlayer
             var positionError = Vector3D.Distance(actualTopPose.Translation, expectedTopPose.Translation);
             var axisAlignment = Math.Max(0f, Math.Min(1f, actualTopPose.Up.Dot(expectedTopPose.Up)));
             var axisError = Math.Acos(axisAlignment) * 180.0 / Math.PI;
-            
-            // Util.LogPoseDelta(Util.DebugName(Stator), ref actualTopPose, ref expectedTopPose);
-            // MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
-            // MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+
+            if (cfg.Trace)
+            {
+                Util.LogPoseDelta(Util.DebugName(Stator), ref actualTopPose, ref expectedTopPose);
+                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
+                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+            }
+
+            var logDetail = false;
             
             // Is the head slightly displaced by clang forces?
-            var modified = false;
             if (positionError > cfg.RotorDeactivateAtPositionError || axisError > cfg.RotorDeactivateAtAxisError)
             {
-                MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(Stator)}: Deactivated because of clang forces");
+                if (cfg.Debug)
+                {
+                    MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(Stator)}: Deactivated because of clang forces");
+                    logDetail = cfg.Detail;
+                }
                 Stator.SetValueFloat("Torque", 0f);
                 Stator.SetValueFloat("BrakingTorque", Math.Max(1000000, Stator.BrakingTorque));
                 Stator.SetValueFloat("Velocity", 0f);
-                modified = true;
             }
 
             // Is the head extremely misaligned by clang forces?
             if (positionError > cfg.RotorDetachAtPositionError || axisError > cfg.RotorDetachAtAxisError)
             {
-                MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(Stator)}: Detached top part due to heavy clang forces");
+                if (cfg.Debug)
+                {
+                    MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(Stator)}: Detached top part due to heavy clang forces");
+                    logDetail = cfg.Detail;
+                }
                 Stator.Detach();
                 Stator.Enabled = false;
-                modified = true;
             }
             
-            if (modified && Util.Debug)
+            if (logDetail)
             {
                 Util.LogPoseDelta(Util.DebugName(Stator), ref actualTopPose, ref expectedTopPose);
                 MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");

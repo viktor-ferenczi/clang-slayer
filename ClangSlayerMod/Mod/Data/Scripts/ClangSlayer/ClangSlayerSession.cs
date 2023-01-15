@@ -4,6 +4,7 @@ using VRage.Game.Components;
 namespace ClangSlayer
 {
     [MySessionComponentDescriptor(MyUpdateOrder.BeforeSimulation)]
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ClangSlayerSession : MySessionComponentBase
     {
         public static Config Cfg;

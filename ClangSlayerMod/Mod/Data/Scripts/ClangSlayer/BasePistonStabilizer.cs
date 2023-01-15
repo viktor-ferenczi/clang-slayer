@@ -54,31 +54,41 @@ namespace ClangSlayer
             var axisAlignment = Math.Max(0f, Math.Min(1f, actualTopPose.Up.Dot(expectedTopPose.Up)));
             var axisError = Math.Acos(axisAlignment) * 180.0 / Math.PI;
 
-            // Util.LogPoseDelta(Util.DebugName(piston), ref actualTopPose, ref expectedTopPose);
-            // MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
-            // MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+            if (cfg.Trace)
+            {
+                Util.LogPoseDelta(Util.DebugName(piston), ref actualTopPose, ref expectedTopPose);
+                MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");
+                MyLog.Default.WriteLineAndConsole($"      axisError={axisError:0.000} degrees");
+            }
+
+            var logDetail = false;
             
             // Is the head slightly displaced by clang forces?
-            var modified = false;
             if (positionError > cfg.PistonDeactivateAtPositionError || axisError > cfg.PistonDeactivateAtAxisError)
             {
-                MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(piston)}: Deactivated because of clang forces");
+                if (cfg.Debug)
+                {
+                    MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(piston)}: Deactivated because of clang forces");
+                    logDetail = cfg.Detail;
+                }
                 piston.SetValueFloat("Velocity", 0f);
                 piston.SetValueFloat("MaxImpulseAxis", 100f);
                 piston.SetValueFloat("MaxImpulseNonAxis", 100f);
-                modified = true;
             }
 
             // Is the head extremely misaligned by clang forces?
             if (positionError > cfg.PistonDetachAtPositionError || axisError > cfg.PistonDetachAtAxisError)
             {
-                MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(piston)}: Detached top part due to heavy clang forces");
+                if (cfg.Debug)
+                {
+                    MyLog.Default.WriteLineAndConsole($"ClangSlayer: {Util.DebugName(piston)}: Detached top part due to heavy clang forces");
+                    logDetail = cfg.Detail;
+                }
                 piston.Detach();
                 piston.Enabled = false;
-                modified = true;
             }
 
-            if (modified && Util.Debug)
+            if (logDetail)
             {
                 Util.LogPoseDelta(Util.DebugName(piston), ref actualTopPose, ref expectedTopPose);
                 MyLog.Default.WriteLineAndConsole($"  positionError={positionError:0.000} m");

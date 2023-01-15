@@ -9,10 +9,12 @@ namespace ClangSlayer
     {
         private static readonly StringBuilder Sb = new StringBuilder();
         
+        protected readonly Dictionary<string, object> Comments = new Dictionary<string, object>();
         protected readonly Dictionary<string, object> Defaults = new Dictionary<string, object>();
 
         protected BaseConfig()
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             AddOptions();
 
             foreach (var p in Defaults)
@@ -30,14 +32,26 @@ namespace ClangSlayer
             return FormatIni();
         }
 
-        public string FormatIni()
+        protected string FormatIni()
         {
             Sb.Clear();
 
+            var first = true;
             foreach (var p in this)
             {
                 var isDefault = p.Value == Defaults[p.Key];
                 var prefix = isDefault ? "#" : "";
+                
+                var comment = Comments.GetValueOrDefault(p.Key);
+                if (comment != null)
+                {
+                    if (!first)
+                    {
+                        Sb.Append("\r\n");
+                    }
+                    Sb.Append($"# {comment}\r\n");
+                }
+                
                 if (p.Value is float || p.Value is double)
                 {
                     Sb.Append($"{prefix}{p.Key}={p.Value:F3}\r\n");
@@ -46,12 +60,14 @@ namespace ClangSlayer
                 {
                     Sb.Append($"{prefix}{p.Key}={p.Value}\r\n");
                 }
+
+                first = false;
             }
 
             return Sb.ToString();
         }
 
-        public bool TryParse(string text, Dictionary<string, object> defaults, List<string> errors = null)
+        protected bool TryParse(string text, Dictionary<string, object> defaults, List<string> errors = null)
         {
             Clear();
 

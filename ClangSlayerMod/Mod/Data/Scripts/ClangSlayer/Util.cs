@@ -9,19 +9,11 @@ namespace ClangSlayer
 {
     public static class Util
     {
-        public static readonly Random Rng = new Random();
-
         public static Config Cfg => ClangSlayerSession.Cfg;
-        public static bool Debug => Cfg.Debug;
         
         public static string DebugName(IMyTerminalBlock block)
         {
-            if (block?.CubeGrid == null)
-            {
-                return "?";
-            }
-            
-            return $"{Name(block.CubeGrid)}/{Name(block)}";
+            return block?.CubeGrid == null ? "?" : $"{Name(block.CubeGrid)}/{Name(block)}";
         }
 
         public static string Name(IMyCubeGrid grid)
@@ -41,7 +33,7 @@ namespace ClangSlayer
 
         public static string Format(Vector3D v)
         {
-            return $"[{v.X:0.000000}, {v.Y:0.000000}, {v.Z:0.000000}]";
+            return $"[{v.X:0.000}, {v.Y:0.000}, {v.Z:0.000}]";
         }
 
         public static string Format(MatrixD m)
