@@ -5,6 +5,8 @@ The Clang Slager mod "defuses" clang drives, weapons or almost any contraption w
 It works both in single and multiplayer. In case of multiplayer it works only server side 
 where the physics simulation runs. Works in both creative and survival game modes.
 
+[Clang Slayer mod on the Steam Workshop]([url](https://steamcommunity.com/sharedfiles/filedetails/?id=2918228306))
+
 ## Theory of operation
 
 ### Step by step
