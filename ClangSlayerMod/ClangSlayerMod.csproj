@@ -33,42 +33,6 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Xml" />
-        <Reference Include="ProtoBuf.Net.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\GameBin64\ProtoBuf.Net.Core.dll</HintPath>
-        </Reference>
-        <Reference Include="Sandbox.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\Sandbox.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="Sandbox.Game, Version=0.1.1.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\Program Files (x86)\Steam\steamapps\common\SpaceEngineers\Bin64\Sandbox.Game.dll</HintPath>
-        </Reference>
-        <Reference Include="SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\SpaceEngineers.Game.dll</HintPath>
-        </Reference>
-        <Reference Include="SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\SpaceEngineers.ObjectBuilders.dll</HintPath>
-        </Reference>
-        <Reference Include="VRage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\VRage.dll</HintPath>
-        </Reference>
-        <Reference Include="VRage.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\VRage.Game.dll</HintPath>
-        </Reference>
-        <Reference Include="VRage.Input, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-			<HintPath>..\GameBin64\VRage.Input.dll</HintPath>
-        </Reference>
-        <Reference Include="VRage.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\VRage.Library.dll</HintPath>
-        </Reference>
-        <Reference Include="VRage.Math, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\GameBin64\VRage.Math.dll</HintPath>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
         <Compile Include="Mod\Data\Scripts\ClangSlayer\BaseConfig.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\BaseHingeStabilizer.cs" />
         <Compile Include="Mod\Data\Scripts\ClangSlayer\Config.cs" />
@@ -90,9 +54,65 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="deploy_mod.bat" />
+      <Content Include="Deploy.bat" />
       <Content Include="Mod\steam_description.txt" />
       <Content Include="Mod\thumb.jpg" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="Sandbox.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\Sandbox.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="Sandbox.Game, Version=0.1.1.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\Sandbox.Game.dll</HintPath>
+      </Reference>
+      <Reference Include="Sandbox.Graphics, Version=0.1.1.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\Sandbox.Graphics.dll</HintPath>
+      </Reference>
+      <Reference Include="SpaceEngineers.Game, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\SpaceEngineers.Game.dll</HintPath>
+      </Reference>
+      <Reference Include="SpaceEngineers.ObjectBuilders, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\SpaceEngineers.ObjectBuilders.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Audio, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Audio.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Game, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Game.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Input, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Input.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Library.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Math, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Math.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Render, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Render.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Render11, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Render11.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Scripting, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Scripting.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.Steam, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.Steam.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.UserInterface, Version=1.0.0.0, Culture=neutral, processorArchitecture=Amd64">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.UserInterface.dll</HintPath>
+      </Reference>
+      <Reference Include="VRage.XmlSerializers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+        <HintPath>..\packages\SpaceEngineers.ScriptingReferences.1.3.0\lib\net46\VRage.XmlSerializers.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,13 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Deploy" type="BatchConfigurationType" factoryName="Batch">
+    <module name="rider.module" />
+    <option name="INTERPRETER_OPTIONS" value="" />
+    <option name="WORKING_DIRECTORY" value="./ClangSlayerMod" />
+    <option name="PARENT_ENVS" value="true" />
+    <option name="SCRIPT_NAME" value="Deploy.bat" />
+    <option name="PARAMETERS" value="ClangSlayerMod" />
+    <method v="2">
+      <option name="Build Solution" enabled="true" />
+    </method>
+  </configuration>
+</component>
